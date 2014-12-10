@@ -42,10 +42,17 @@ class Blogtastic::Server < Sinatra::Application
     # Create the session by adding a new key value pair to the
     # session hash. The key should be 'user_id' and the value
     # should be the user id of the user who was just created.
+    db = Blogtastic.create_db_connection 'blogtastic'
+    user = Blogtastic::UsersRepo.save(db, params)
+    puts params
+    session['user_id'] = user['id']
+    redirect '/signin'
+    
   end
 
   get '/signin' do
     # TODO: render template for user to sign in
+    erb :'/auth/signin'
   end
 
   post '/signin' do
