@@ -44,9 +44,8 @@ class Blogtastic::Server < Sinatra::Application
     # should be the user id of the user who was just created.
     db = Blogtastic.create_db_connection 'blogtastic'
     user = Blogtastic::UsersRepo.save(db, params)
-    puts params
     session['user_id'] = user['id']
-    redirect '/signin'
+    redirect '/posts'
     
   end
 
@@ -60,10 +59,18 @@ class Blogtastic::Server < Sinatra::Application
     # Create the session by adding a new key value pair to the
     # session hash. The key should be 'user_id' and the value
     # should be the user id of the user who just logged in.
+    db = Blogtastic.create_db_connection 'blogtastic'
+    user = Blogtastic::UsersRepo.find_by_name(db, params[:username])
+    if user['password'] == params[:password]  
+      session['user_id'] = user['id']
+    end 
+    redirect '/posts'
   end
 
   get '/logout' do
     # TODO: destroy the session
+    session['user_id'] = nil
+    redirect '/signin'
   end
 
   ###################################################################

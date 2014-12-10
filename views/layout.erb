@@ -14,10 +14,12 @@
       <% if @current_user['username'] == 'anonymous' %>
         <a href='/signin'>Sign In</a> or <a href='/signup'>Sign Up</a>
       <% else %>
-        Signed in as <%= @current_user['username'] %>
+        Signed in as <%= @current_user['username'] %> <a href='/logout'>Log out</a>
       <% end %>
     </div>
+    <div class="sixteen columns">
     <%= yield %>
+    </div>
   </div>
 </body>
 </html>
