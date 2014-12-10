@@ -3,10 +3,12 @@ require 'sinatra/reloader'
 require 'pry-byebug'
 require 'rack-flash'
 
+
 require_relative 'lib/blogtastic.rb'
 
 class Blogtastic::Server < Sinatra::Application
   configure do
+    set :bind, '0.0.0.0'
     enable :sessions
     use Rack::Flash
   end
@@ -32,6 +34,7 @@ class Blogtastic::Server < Sinatra::Application
 
   get '/signup' do
     # TODO: render template with form for user to sign up
+    erb :'/auth/signup'
   end
 
   post '/signup' do
