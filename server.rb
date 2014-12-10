@@ -33,15 +33,10 @@ class Blogtastic::Server < Sinatra::Application
   # save and find users to handle the authentication process.
 
   get '/signup' do
-    # TODO: render template with form for user to sign up
     erb :'/auth/signup'
   end
 
   post '/signup' do
-    # TODO: save user's info to db and create session
-    # Create the session by adding a new key value pair to the
-    # session hash. The key should be 'user_id' and the value
-    # should be the user id of the user who was just created.
     db = Blogtastic.create_db_connection 'blogtastic'
     user = Blogtastic::UsersRepo.save(db, params)
     session['user_id'] = user['id']
@@ -50,15 +45,10 @@ class Blogtastic::Server < Sinatra::Application
   end
 
   get '/signin' do
-    # TODO: render template for user to sign in
     erb :'/auth/signin'
   end
 
   post '/signin' do
-    # TODO: validate users credentials and create session
-    # Create the session by adding a new key value pair to the
-    # session hash. The key should be 'user_id' and the value
-    # should be the user id of the user who just logged in.
     db = Blogtastic.create_db_connection 'blogtastic'
     user = Blogtastic::UsersRepo.find_by_name(db, params[:username])
     if user['password'] == params[:password]  
@@ -68,7 +58,6 @@ class Blogtastic::Server < Sinatra::Application
   end
 
   get '/logout' do
-    # TODO: destroy the session
     session['user_id'] = nil
     redirect '/signin'
   end
@@ -115,7 +104,7 @@ class Blogtastic::Server < Sinatra::Application
     @post = Blogtastic::PostsRepo.find db, params[:id]
     @comments = Blogtastic::CommentsRepo.post_comments db, params[:id]
     @user = Blogtastic::UsersRepo.find db, @post['user_id']
-
+    
     @comments.map do |c|
       comment_user = Blogtastic::UsersRepo.find db, c['user_id']
       c['user'] = comment_user['username']
@@ -141,5 +130,12 @@ class Blogtastic::Server < Sinatra::Application
     db = Blogtastic.create_db_connection 'blogtastic'
     Blogtastic::PostsRepo.destroy db, params[:id]
     redirect to '/posts'
+  end
+  
+  #delete a comment on a post 
+  delete '/posts/:post_id/comments/:id' do
+    db = Blogtastic.create_db_connection 'blogtastic'
+    Blogtastic::CommentsRepo.destroy(db, params[:id])
+    redirect "/posts/"+params[:post_id]
   end
 end

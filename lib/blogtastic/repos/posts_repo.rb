@@ -27,7 +27,7 @@ module Blogtastic
     def self.destroy db, id
       sql = %q[DELETE FROM posts where id = $1]
       db.exec(sql, [id])
-      post_exists?(db, id)
+#       post_exists?(db, id)
     end
   
     private

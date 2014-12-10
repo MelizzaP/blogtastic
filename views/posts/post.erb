@@ -14,6 +14,13 @@
   
     <% @comments.each do |comment| %>
       <p><%= comment['user'] %>: <%= comment['content'] %></p>
+      <% if @current_user['id'] == comment['user_id'] %>
+      <form method="post" action="/posts/<%= @post['id'] %>/comments/<%=comment['id'] %>">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="id" value="<%=comment['id'] %>">
+        <input type="submit" value="delete">
+      </form>        
+      <% end %>
     <% end %>
   </div>
 </div><!-- end sixteen columnns -->
