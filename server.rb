@@ -128,6 +128,7 @@ class Blogtastic::Server < Sinatra::Application
   # delete a post
   delete '/posts/:id' do
     db = Blogtastic.create_db_connection 'blogtastic'
+    Blogtastic::CommentsRepo.destroy_all_comments(db, params[:id])
     Blogtastic::PostsRepo.destroy db, params[:id]
     redirect to '/posts'
   end

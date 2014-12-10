@@ -31,6 +31,11 @@ module Blogtastic
       db.exec(sql, [id])
       # comment_exists?(db, id)
     end
+    
+    def self.destroy_all_comments db, post_id
+      sql = %q[DELETE FROM comments WHERE post_id = $1]
+      db.exec(sql, [post_id])
+    end
 
     private
 

@@ -9,8 +9,15 @@
       </a>
       <div class="caption">
         <a href="/posts/<%= post['id'] %>"><%= post['title'] %></a>
-        <form action="post" acton
         <span class="artist"><%= post['content'].chars.first(15).join + '...' if post['content'] %></span>
+        <% if post['user_id'] == @current_user['id'] %>
+          <form method="post" action="/posts/<%= post['id'] %>">
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="post" value="post">
+            <input type="submit" value="delete">
+          </form> 
+        <% end %>
+
       </div>
     </div>
   <% end %>

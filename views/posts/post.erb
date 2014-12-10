@@ -2,6 +2,15 @@
   <div class='eight columns omega aside-container'>
     <h4><%= @post['title'] %> by <%= @user['username'] %></h4>
     <%= @post['content'] %>
+  
+
+   <% if @post['user_id'] == @current_user['id'] %>
+    <form method="post" action="/posts/<%= @post['id'] %>">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="post" value="post">
+      <input type="submit" value="delete">
+    </form> 
+  <% end %>
   </div>
   
   <div class='eight columns omega aside-container'>
