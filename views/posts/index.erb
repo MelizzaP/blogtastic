@@ -9,6 +9,7 @@
       </a>
       <div class="caption">
         <a href="/posts/<%= post['id'] %>"><%= post['title'] %></a>
+        <form action="post" acton
         <span class="artist"><%= post['content'].chars.first(15).join + '...' if post['content'] %></span>
       </div>
     </div>
