@@ -133,6 +133,20 @@ class Blogtastic::Server < Sinatra::Application
     redirect to '/posts'
   end
   
+  #edit post form
+  get '/posts/:id/edit' do
+    db = Blogtastic.create_db_connection('blogtastic')
+    @post = Blogtastic::PostsRepo.find(db, params[:id])
+    erb :'posts/edit'
+  end
+  
+  #edit a post
+  put '/posts/:id' do
+    db = Blogtastic.create_db_connection('blogtastic')
+    post = Blogtastic::PostsRepo.save(db, params)
+    redirect '/posts/'+params[:id]
+  end
+  
   #delete a comment on a post 
   delete '/posts/:post_id/comments/:id' do
     db = Blogtastic.create_db_connection 'blogtastic'
